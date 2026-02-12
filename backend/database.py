@@ -9,15 +9,26 @@ load_dotenv()
 # Default to SQLite for easy local development (no PostgreSQL server required)
 # For production, set DATABASE_URL to your PostgreSQL connection string
 DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    "sqlite+aiosqlite:///./hrms_lite.db"
+    "DATABASE_URL",
+    "sqlite+aiosqlite:///./hrms_lite.db",
 )
+
+# Render and other hosts often give postgres://; SQLAlchemy async needs postgresql+asyncpg://
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
+
+# Require SSL for production Postgres (e.g. Render)
+if DATABASE_URL.startswith("postgresql"):
+    if "?" in DATABASE_URL:
+        DATABASE_URL += "&ssl=require"
+    else:
+        DATABASE_URL += "?ssl=require"
 
 # Create async engine
 engine = create_async_engine(
     DATABASE_URL,
     echo=False,  # Set to True for SQL query logging
-    future=True
+    future=True,
 )
 
 # Create async session factory
