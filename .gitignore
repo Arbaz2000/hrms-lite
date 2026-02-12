@@ -25,10 +25,10 @@ playwright-report/
 test-results/
 e2e/screenshots/
 
-# Environment variables
-.env
-.env.local
-.env.*.local
+# Environment variables (shared for demo purposes)
+# .env
+# .env.local
+# .env.*.local
 
 # IDE
 .vscode/
