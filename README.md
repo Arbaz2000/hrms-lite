@@ -17,3 +17,4 @@ cd frontend && npm install
 - Frontend: `cd frontend && npm run dev` (port 5173)
 
 See [RECRUITER.md](RECRUITER.md) for full documentation.
+> **Note:** For testing or development, you can switch to the `test` branch:
